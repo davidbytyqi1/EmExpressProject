@@ -26,11 +26,14 @@ namespace EmExpressProject.Models
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<Products> Products { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Data Source=LAPTOP-U57H54T6\\SQLEXPRESS;Initial Catalog=EmExpressDb;User ID=sa;Password=P@ssw0rd");
             }
         }
 
@@ -132,6 +135,44 @@ namespace EmExpressProject.Models
                 entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
 
                 entity.Property(e => e.UserName).HasMaxLength(256);
+            });
+
+            modelBuilder.Entity<Products>(entity =>
+            {
+                entity.Property(e => e.CreatedByUserId)
+                    .IsRequired()
+                    .HasMaxLength(450);
+
+                entity.Property(e => e.CreatedOnDate).HasColumnType("datetime");
+
+                entity.Property(e => e.DataDocumentName)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DocumentName)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LastModifiedByUserId).HasMaxLength(450);
+
+                entity.Property(e => e.LastModifiedOnDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Price)
+                    .IsRequired()
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Specification)
+                    .IsRequired()
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Title)
+                    .IsRequired()
+                    .IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);

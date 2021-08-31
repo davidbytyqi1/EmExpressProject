@@ -1,0 +1,136 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@using System.Net
+@model EmExpressProject.ModelView.ProductsViewModel
+
+@{
+    var imgList = new List<string>
+{
+        ".png",
+        ".jpg",
+        ".jpeg",
+        ".gif",
+        ".svg"
+
+    };
+
+
+}
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+<h1>AddEditProduct</h1>
+
+<div class="row">
+    <form asp-controller="Home" asp-area="Admin" asp-action="CreateUpdateProduct" id="create">
+        <div class="row">
+            <input type="hidden" id="Id" asp-for="@Model.Id" />
+            <div class="col-lg-5  offset-modal">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input asp-for="@Model.Title" type="text" class="form-control" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="form-group">
+                    <label>Description</label>
+                    <input asp-for="@Model.Description" type="text" class="form-control" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-lg-5 offset-modal">
+                <div class="form-group">
+                    <label>Price</label>
+                    <input asp-for="@Model.Price" type="text" class="form-control" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-lg-5 offset-modal">
+                <div class="form-group">
+                    <label>Specification</label>
+                    <input asp-for="@Model.Specification" type="text" class="form-control" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-lg-5 offset-modal">
+                <div class="form-group">
+                    <label>Document Name</label>
+                    <input asp-for="@Model.DocumentName" type="text" class="form-control" autocomplete="off">
+                </div>
+            </div>
+            <div class="col-lg-3 offset-modal">
+                <div class="form-group">
+                    <label>Image</label>
+                    <input class="form-control" type="file" id="ProfilePhoto" accept="image/gif, image/jpeg, image/png" /> <img style="height:100px;width:100px" src =@(Model.AbsolutePath + Model.DataDocumentName)></img>
+                </div>
+            </div>
+
+            <div class="col-lg-5 offset-modal">
+            </div>
+            <div class="col-lg-5 offset-modal">
+                <div class="text-right">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="~/admin/lib/jquery-validate/jquery.validate.min.js"></script>
+<script src="~/admin/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/admin/js/moment.min.js"></script>
+<script src="~/admin/js/bootstrap-datetimepicker.min.js"></script>
+<script src="~/admin/js/multiselect.min.js"></script>
+
+<script>
+    $("#create").validate({
+        ignore: "",
+        rules: {
+            Title: {
+                required: true,
+                normalizer: function (value) {
+                    return $.trim(value);
+                }
+            },
+            Description: {
+                required: true,
+                normalizer: function (value) {
+                    return $.trim(value);
+                }
+            },
+            Price: {
+                required: true,
+                normalizer: function (value) {
+                    return $.trim(value);
+                }
+            },
+            //ProfilePhoto: {
+            //    required: true,
+            //    normalizer: function (value) {
+            //        return $.trim(value);
+            //    }
+            //}
+        }, messages: {
+            Title: {
+                required: '<li class="parsley-required">' + 'Shkruaj titullin' + '</li>',
+            },
+            Description: {
+                required: '<li class="parsley-required">' + 'Shkruaj pershkrimin' + '</li>',
+            },
+            Price: {
+                required: '<li class="parsley-required">' + 'Shkruaj cmimin' + '</li>',
+            },
+            //ProfilePhoto: {
+            //    required: '<li class="parsley-required">' + 'Merr foton' + '</li>'
+            //}
+        },
+
+        submitHandler: function (form) {
+            var formData = new FormData(form);
+            if ($('input#ProfilePhoto')[0].files[0] != null) {
+                formData.append('ProfilePhoto', $('input#ProfilePhoto')[0].files[0], 'chris.jpg');
+            }
+    
+            PostSync(formData, "@Url.Action("CreateUpdateProduct", "Home")").done(function (result) {
+              
+
+            });
+            return false;
+        }
+    });
+</script>

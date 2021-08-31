@@ -1,8 +1,34 @@
-﻿@{
+﻿@model List<EmExpressProject.ModelView.ProductsViewModel>
+@{
     ViewData["Title"] = "Home Page";
 }
+    <section class="section-big-pb-space ratio_40 pb-10">
+        <!--tab product-->
+        <section class="section-py-space">
+            <div class="tab-product-main">
+                <div class="tab-prodcut-contain">
+                    <ul class="tabs tab-title">
+                        <li class="current"><a href="tab-1.html">fashion</a></li>
+                        <li class=""><a href="tab-2.html">electronic</a></li>
+                        <li class=""><a href="tab-3.html">footware</a></li>
+                        <li class=""><a href="tab-4.html">sports</a></li>
+                        <li class=""><a href="tab-5.html">toys</a></li>
+                        <li class=""><a href="tab-6.html">books</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        <!--tab product-->
+        <div class="custom-container product">
+            <div class="row">
+                @{
+                    await Html.RenderPartialAsync("_Products", Model);
+                }
+            </div>
+        </div>
+    </section>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+   
+
+

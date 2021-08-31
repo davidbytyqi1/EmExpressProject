@@ -1,0 +1,227 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+/*a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+/*
+a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+/*
+html {
+  font-size: 14px;
+}
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.border-top {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+/*
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+/*
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px; /* Vertically center the text there */ /*
+}*/
+
+/*Custom css*/
+.red-asterisk::after {
+    content: "*";
+    position: absolute;
+    color: #ef5350 !important;
+    /*display: block !important;*/
+}
+
+.panel-heading {
+    padding: 0;
+    border: 0;
+}
+
+.panel-title > a, .panel-title > a:active {
+    display: block;
+    padding: .7em;
+    padding-left: 1.286em;
+    color: #bbb;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-decoration: none;
+    background-color: #fafafa;
+}
+
+    .panel-title > a:hover {
+        color: #777;
+    }
+
+.panel-heading a:before {
+    font-family: 'Glyphicons Halflings';
+    content: "\276f";
+    float: right;
+    transition: all 0.5s;
+}
+
+.panel-heading.active a:before {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    transform: rotate(90deg);
+}
+
+.panel-collapse {
+    padding: 1.286em;
+}
+
+@media(max-width: 768px) {
+    button.full-width {
+        width: 100%;
+    }
+}
+
+.h-43 {
+    height: 43px !important;
+}
+
+input[type="file"] {
+    border-color: #e3e3e3!important;
+}
+
+.btn-outline-secondary {
+    border-color: #e3e3e3 !important;
+}
+
+.time-icon {
+    position: relative;
+    width: 100%;
+}
+
+    .time-icon:after {
+        color: #979797;
+        content: "\f017";
+        display: block;
+        font-family: "FontAwesome";
+        font-size: 15px;
+        margin: auto;
+        position: absolute;
+        right: 15px;
+        top: 10px;
+    }
+
+.btn-xs {
+    padding: .1rem 0.2rem;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    background-color: #bbb;
+    border-color: #bbb;
+    color: white !important;
+}
+
+.no-scrollbar .k-grid-header {
+    padding: 0 !important;
+}
+
+.no-scrollbar .k-grid-content {
+    overflow-y: visible;
+}
+
+.k-header.k-grid-toolbar {
+    background-color: #fafafa !important;
+}
+
+.k-dropdown-wrap {
+    border-color: #e6e6e6 !important;
+}
+
+.k-grid-toolbar .k-grid-add {
+    color: #b6b6b6 !important;
+    background-color: #fafafa !important;
+    border: 1px solid #dedede !important;
+    border-radius: unset !important;
+    min-width: 50px !important;
+    cursor: pointer !important;
+}
+
+    .k-grid-toolbar .k-grid-add:hover {
+        background-color: #fafafa !important;
+        border: 1px solid #dedede !important;
+        border-radius: unset !important;
+    }
+
+.k-grid-toolbar {
+    display: flex !important;
+    justify-content: flex-start !important;
+}
+
+.k-i-plus, .k-i-image, .k-i-pdf, .k-i-excel {
+    margin: unset !important;
+    opacity: 1 !important;
+}
+
+.k-grid-edit {
+    min-width: 50px !important;
+}
+
+.edit-modal > .k-i-pencil {
+    margin: unset !important;
+}
+
+.k-grid-delete {
+    margin-top: unset !important;
+}
+
+.k-window-titlebar {
+    color: #555 !important;
+    background-color: #ddd !important;
+}
+
+.k-window .k-window-content {
+    overflow: unset !important;
+}

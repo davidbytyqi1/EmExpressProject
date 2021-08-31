@@ -1,0 +1,155 @@
+﻿
+@{
+    ViewData["Title"] = "Products";
+}
+
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2021.1.224/styles/kendo.default-v2.min.css" />
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2021.1.224/js/kendo.all.min.js"></script>
+
+
+<div id="example">
+    <div id="grid"></div>
+    <script>
+        $(document).ready(function () {
+          $("#grid").kendoGrid({
+                    resizable: true,
+                    position: "right",
+                    height: 550,
+                    dataSource: {
+                        type: "json",
+                        serverPaging: false,
+                        serverSorting: false,
+                        serverFiltering: false,
+                        //allowUnsort: true,
+                        pageSize: 10,
+                        transport: {
+                            read: {
+                                url: "@Url.Action("Read_Products", "Home")",
+                                type: "POST",
+                                dataType: "json"
+                            },
+                            parameterMap: function (data) {
+                                return data;
+                            }
+
+                        },
+                        schema: {
+                           data: function (response) {
+                                    return response.data;
+                            },
+                            total: function (response) {
+                                    return response.total;
+                           }
+                        },
+                        batch: false,
+                        pageSize: 20,
+                        serverPaging: false,
+                        serverFiltering: false,
+                    },
+                    filterable: {
+                        mode: "menu"
+                    },
+                    columnMenu: false,
+                    editable: false,
+                    pageable: true,
+                    columns:[{
+                            field: "title",
+                            title: "Produkti",
+                            // hidden: true,
+                            filterable: false
+                        },
+                        {
+                            field: "description",
+                            title: "Pershkrimi",
+                            // hidden: true,
+                            filterable:false
+                        }
+
+                    ],
+                });
+        });
+
+
+
+    </script>
+
+    <style type="text/css">
+        .customer-photo {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-size: 32px 35px;
+            background-position: center center;
+            vertical-align: middle;
+            line-height: 32px;
+            box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+            margin-left: 5px;
+        }
+
+        .customer-name {
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 32px;
+            padding-left: 3px;
+        }
+
+        .k-grid tr .checkbox-align {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .product-photo {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-size: 32px 35px;
+            background-position: center center;
+            vertical-align: middle;
+            line-height: 32px;
+            box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
+            margin-right: 5px;
+        }
+
+        .product-name {
+            display: inline-block;
+            vertical-align: middle;
+            line-height: 32px;
+            padding-left: 3px;
+        }
+
+        .k-rating-container .k-rating-item {
+            padding: 4px 0;
+        }
+
+            .k-rating-container .k-rating-item .k-icon {
+                font-size: 16px;
+            }
+
+        .dropdown-country-wrap {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: center;
+            white-space: nowrap;
+        }
+
+            .dropdown-country-wrap img {
+                margin-right: 10px;
+            }
+
+        #grid .k-grid-edit-row > td > .k-rating {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        .k-grid .k-grid-search {
+            margin-left: auto;
+            margin-right: 0;
+        }
+    </style>
+</div>
+
+

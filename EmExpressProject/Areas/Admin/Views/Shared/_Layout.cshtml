@@ -1,49 +1,585 @@
 ﻿<!DOCTYPE html>
+@using System.Globalization;
+@using System.Threading;
+
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+@{
+    var action = ViewContext.RouteData.Values["Action"].ToString().ToLower();
+    var controller = ViewContext.RouteData.Values["Controller"].ToString().ToLower();
+    CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
+    string culture = cultureInfo.Name;
+}
 <html lang="en">
 <head>
     <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - EmExpressProject</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <title>@ViewData["Title"] - @SharedLocalizer["FSSHLabel"]</title>
+    <link rel="stylesheet" href="~/admin/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/admin/css/site.css" />
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/admin/img/favicon2.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/admin/css/bootstrap.min.css">
+
+    <!-- Fontawesome CSS -->
+    <link rel="stylesheet" href="~/admin/css/font-awesome.min.css">
+
+    <!-- Lineawesome CSS -->
+    <link rel="stylesheet" href="~/admin/css/line-awesome.min.css">
+
+
+    <!-- Chart CSS -->
+    <link rel="stylesheet" href="~/admin/plugins/morris/morris.css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="~/admin/css/style.css">
+    <link rel="stylesheet" href="~/admin/css/site.css">
+
+
+
+    @*<link href="~/admin/css/select2.min.css" rel="stylesheet" />*@
+    @RenderSection("Styles", required: false)
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="~/admin/js/html5shiv.min.js"></script>
+        <script src="~/admin/js/respond.min.js"></script>
+    <![endif]-->
+    <script src="~/admin/js/jquery-3.2.1.min.js"></script>
+    <script src="~/admin/js/moment.min.js"></script>
+    <script src="~/admin/js/popper.min.js"></script>
+    <script src="~/admin/js/bootstrap.min.js"></script>
+    <!-- Kendo -->
+    <link href="~/admin/kendo-files/kendo.material.min.css" rel="stylesheet" />
+    <link href="~/admin/kendo-files/kendo.common-material.min.css" rel="stylesheet" />
+
+    <script src="~/admin/kendo-files/js/kendo.all.min.js"></script>
+
+    <script src="~/admin/kendo-files/js/kendo.jssor.all.min.js"></script>
+    <script src="~/admin/kendo-files/js/kendo.aspnetmvc.min.js"></script>
+    <script src="~/admin/kendo-files/js/kendoGridColumnsVisibility.js"></script>
+    <!-- Kendo -->
+    <style>
+
+        .parsley-required {
+            list-style-type: none;
+            color: darkred;
+        }
+
+        #overlay {
+            position: fixed; /* Sit on top of the page content */
+            display: block; /* Hidden by default */
+            width: 100%; /* Full width (cover the whole page) */
+            height: 100%; /* Full height (cover the whole page) */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+            z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+            cursor: pointer; /* Add a pointer on hover */
+        }
+
+        .spinner {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            height: 60px;
+            width: 60px;
+            margin: 0px auto;
+            -webkit-animation: rotation .6s infinite linear;
+            -moz-animation: rotation .6s infinite linear;
+            -o-animation: rotation .6s infinite linear;
+            animation: rotation .6s infinite linear;
+            border-left: 6px solid rgba(255,155,68,.15);
+            border-right: 6px solid rgba(255,155,68,.15);
+            border-bottom: 6px solid rgba(255,155,68,.15);
+            border-top: 6px solid rgba(255,155,68,.8);
+            border-radius: 100%;
+        }
+
+        @@-webkit-keyframes rotation {
+            from {
+                -webkit-transform: rotate(0deg);
+            }
+
+            to {
+                -webkit-transform: rotate(359deg);
+            }
+        }
+
+        @@-moz-keyframes rotation {
+            from {
+                -moz-transform: rotate(0deg);
+            }
+
+            to {
+                -moz-transform: rotate(359deg);
+            }
+        }
+
+        @@-o-keyframes rotation {
+            from {
+                -o-transform: rotate(0deg);
+            }
+
+            to {
+                -o-transform: rotate(359deg);
+            }
+        }
+
+        @@keyframes rotation {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(359deg);
+            }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="Admin" asp-controller="Home" asp-action="Index">EmExpressProject</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">Home</a>
+    <!-- Main Wrapper -->
+    <div class="main-wrapper">
+        <div id="overlay">
+            <div class="spinner"></div>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+
+            <!-- Logo -->
+            <div class="header-left">
+                <a href="@Url.Action("Index","Home")" class="logo">
+                    <img src="~/admin/img/logo.jpg" width="40" height="40" alt="">
+                </a>
+            </div>
+            <!-- /Logo -->
+
+            <a id="toggle_btn" href="javascript:void(0);">
+                <span class="bar-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </span>
+            </a>
+
+            <!-- Header Title -->
+            <div class="page-title-box">
+                @*<h3>Fondi i Sigurimeve Shëndetsore</h3>*@
+                <h4> @SharedLocalizer["FSSHWageGeneration"]</h4>
+            </div>
+            <!-- /Header Title -->
+
+            <a id="mobile_btn" class="mobile_btn" href="#sidebar"><i class="fa fa-bars"></i></a>
+
+            <!-- Header Menu -->
+            <ul class="nav user-menu">
+
+                <!-- Search -->
+                @*<li class="nav-item">
+                        <div class="top-nav-search">
+                            <a href="javascript:void(0);" class="responsive-search">
+                                <i class="fa fa-search"></i>
+                            </a>
+                            <form action="search.html">
+                                <input class="form-control" type="text" placeholder="Search here">
+                                <button class="btn" type="submit"><i class="fa fa-search"></i></button>
+                            </form>
+                        </div>
+                    </li>*@
+                <!-- /Search -->
+                <!-- Flag -->
+                <li class="nav-item dropdown has-arrow flag-nav">
+
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button">
+                        <span id="currentLangaugeName">@(culture == "sq-AL" ? "Shqip": (culture == "en-US" ? "English": "Srpski"))</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a onclick="changeLanugage('sq-AL')" asp-for class="dropdown-item" style="cursor:pointer;">
+                            @SharedLocalizer["AlbanianLanuage"]
+                        </a>
+                        <a onclick="changeLanugage('en-US')" class="dropdown-item" style="cursor:pointer;">
+                            @SharedLocalizer["EnglishLanuage"]
+                        </a>
+                        <a onclick="changeLanugage('sr-Latn-RS')" class="dropdown-item" style="cursor:pointer;">
+                            @SharedLocalizer["SerbianLanuage"]
+                        </a>
+                    </div>
+                </li>
+                <!-- /Flag -->
+                <!-- Notifications -->
+                <li class="nav-item dropdown" id="notifications">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                        <i class="fa fa-bell-o"></i> <span class="badge badge-pill"></span>
+                    </a>
+                    <div class="dropdown-menu notifications">
+                        <div class="topnav-dropdown-header">
+                            <span class="notification-title">@SharedLocalizer["NotificationsLabel"]</span>
+                            @*<a href="javascript:void(0)" class="clear-noti"> Clear All </a>*@
+                        </div>
+                        <div class="noti-content">
+                            @*<ul class="notification-list">
+                                    <li class="notification-message">
+                                        <a href="activities.html">
+                                            <div class="media">
+                                                <span class="avatar">
+                                                    <img alt="" src="~/admin/img/profiles/avatar-02.jpg">
+                                                </span>
+                                                <div class="media-body">
+                                                    <p class="noti-details"><span class="noti-title">John Doe</span> added new task <span class="noti-title">Patient appointment booking</span></p>
+                                                    <p class="noti-time"><span class="notification-time">4 mins ago</span></p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="notification-message">
+                                        <a href="activities.html">
+                                            <div class="media">
+                                                <span class="avatar">
+                                                    <img alt="" src="~/admin/img/profiles/avatar-03.jpg">
+                                                </span>
+                                                <div class="media-body">
+                                                    <p class="noti-details"><span class="noti-title">Tarah Shropshire</span> changed the task name <span class="noti-title">Appointment booking with payment gateway</span></p>
+                                                    <p class="noti-time"><span class="notification-time">6 mins ago</span></p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="notification-message">
+                                        <a href="activities.html">
+                                            <div class="media">
+                                                <span class="avatar">
+                                                    <img alt="" src="~/admin/img/profiles/avatar-06.jpg">
+                                                </span>
+                                                <div class="media-body">
+                                                    <p class="noti-details"><span class="noti-title">Misty Tison</span> added <span class="noti-title">Domenic Houston</span> and <span class="noti-title">Claire Mapes</span> to project <span class="noti-title">Doctor available module</span></p>
+                                                    <p class="noti-time"><span class="notification-time">8 mins ago</span></p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="notification-message">
+                                        <a href="activities.html">
+                                            <div class="media">
+                                                <span class="avatar">
+                                                    <img alt="" src="~/admin/img/profiles/avatar-17.jpg">
+                                                </span>
+                                                <div class="media-body">
+                                                    <p class="noti-details"><span class="noti-title">Rolland Webber</span> completed task <span class="noti-title">Patient and Doctor video conferencing</span></p>
+                                                    <p class="noti-time"><span class="notification-time">12 mins ago</span></p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="notification-message">
+                                        <a href="activities.html">
+                                            <div class="media">
+                                                <span class="avatar">
+                                                    <img alt="" src="~/admin/img/profiles/avatar-13.jpg">
+                                                </span>
+                                                <div class="media-body">
+                                                    <p class="noti-details"><span class="noti-title">Bernardo Galaviz</span> added new task <span class="noti-title">Private chat module</span></p>
+                                                    <p class="noti-time"><span class="notification-time">2 days ago</span></p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                </ul>*@
+                        </div>
+                        <div class="topnav-dropdown-footer">
+                            <a asp-controller="Notifications" asp-action="Index" id="view-all">@SharedLocalizer["ViewAllNotificationsLabel"]</a>
+                        </div>
+                    </div>
+                </li>
+                <!-- /Notifications -->
+
+
+                <li class="nav-item dropdown has-arrow main-drop">
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                        <span class="user-img">
+                            <img id="profile-image" alt="">
+                        </span>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" asp-controller="Profile" asp-action="Index">@SharedLocalizer["ProfileLabel"]</a>
+                        <a class="dropdown-item" href="@Url.Action("SignOut", "User")">@SharedLocalizer["LogoutLabel"]</a>
+                    </div>
+                </li>
+            </ul>
+            <!-- /Header Menu -->
+            <!-- Mobile Menu -->
+            <div class="dropdown mobile-user-menu">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="profile.html">@SharedLocalizer["ProfileLabel"]</a>
+                    <a class="dropdown-item" href="@Url.Action("SignOut", "User")">@SharedLocalizer["LogoutLabel"]</a>
+                </div>
+            </div>
+            <!-- /Mobile Menu -->
+
+        </div>
+        <!-- /Header -->
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
+                        <li class="menu-title">
+                            <span>home</span>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="@((action == "index" && controller == "home") ? "active" : "")">
+                            <a asp-action="Index" asp-area="Admin" asp-controller="Home"><i class="la la-dashboard"></i> <span>Dashboard</span></a>
                         </li>
+                        <li class="menu-title">
+                            <span>products</span>
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="la la-user"></i> <span> products</span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                @*<li class="@((action == "index" && controller == "employee") ? "active" : "")"><a href="@Url.Action("Index", "Employee")">@SharedLocalizer["EmployeeListLabel"]</a></li>*@
+                                @* <li><a href="holidays.html">Historia e punëtorit</a></li>*@
+                                <li>
+                                <a asp-controller="Home" asp-action="Products" asp-area="Admin" class="@((controller == "home" && action == "products") ? "active" : "")">Products</a>
+                                <a asp-controller="Home" asp-action="AddEditProduct" asp-area="Admin" class="@((controller == "home" && action == "products") ? "active" : "")">Products</a>
+                                </li>
+
+
+                            </ul>
+                        </li>
+
+                        <li class="@((action == "index" && controller == "timeattendance") ? "active" : "")">
+                            <a asp-controller="Home" asp-area="Admin" asp-action="Index"><i class="la la-dashboard"></i> <span>@SharedLocalizer["TimeAttendanceLabel"]</span></a>
+                        </li>
+                        <li> <a href="#"><i class="la la-pie-chart"></i> <span>Raportet</span></a>  </li>
+                        <li class="menu-title">
+                            <span>Pagat</span>
+                        </li>
+                        @*@if (access.Check((int)ModuleView.MonthlySalary).NoAccess)*@
+
+                        <li class="submenu">
+                            <a href="#"><i class="la la-money"></i> <span>@SharedLocalizer["WagesLabel"] </span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a asp-controller="WagesGeneration" asp-action="MonthlySalary" class="@((controller == "wagesgeneration" && action == "monthlysalary") ? "active" : "")"> @SharedLocalizer["PayrollLabel"]</a></li>
+                                <li><a asp-controller="WagesGeneration" asp-action="MonthlyParameters" class="@((controller == "wagesgeneration" && action == "monthlyparameters") ? "active" : "")"> @SharedLocalizer["MonthlyParameters"]</a></li>
+                            </ul>
+                        </li>
+
+
+                        <li class="@((action == "index" && controller == "reports") ? "active" : "")">
+                            <a href="@Url.Action("Index", "Reports")"><i class="la la-pie-chart"></i> <span>@SharedLocalizer["FinancialReports"]</span></a>
+                        </li>
+
+                        <li class="menu-title">
+                            <span>@SharedLocalizer["TicketsLabel"]</span>
+                        </li>
+                        <li>
+                            <a asp-action="Index" asp-controller="Tickets"><i class="la la-ticket"></i> <span>@SharedLocalizer["TicketsLabel"]</span></a>
+                        </li>
+                        @*<li class="submenu">
+                                <a href="#"><i class="la la-rocket"></i> <span> Projects</span> <span class="menu-arrow"></span></a>
+                                <ul style="display: none;">
+                                    <li><a href="projects.html">Projects</a></li>
+                                    <li><a href="tasks.html">Tasks</a></li>
+                                    <li><a href="task-board.html">Task Board</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#"><i class="la la-graduation-cap"></i> <span>Performanca</span></a></li>
+                            <li class="submenu">
+                                <a href="#"><i class="la la-crosshairs"></i> <span> Goals </span> <span class="menu-arrow"></span></a>
+                                <ul style="display: none;">
+                                    <li><a href="goal-tracking.html"> Goal List </a></li>
+                                    <li><a href="goal-type.html"> Goal Type </a></li>
+                                </ul>
+                            </li>
+                            <li><a href="promotion.html"><i class="la la-bullhorn"></i> <span>Promotion</span></a></li>*@
+                        <li class="menu-title">
+                            <span>@SharedLocalizer["JobApplicationLabel"]</span>
+                        </li>
+                        <li class="submenu">
+                            <a href="#"><i class="la la-briefcase"></i> <span> @SharedLocalizer["JobApplicationLabel"] </span> <span class="menu-arrow"></span></a>
+                            <ul style="display: none;">
+                                <li><a asp-controller="Recruitments" asp-action="Index" class="@((controller == "recruitments" && action == "index") ? "active" : "")"> @SharedLocalizer["RecruitmentListLabel"]</a></li>
+                                <li><a asp-controller="Recruitments" asp-action="Add" class="@((controller == "recruitments" && action == "add") ? "active" : "")"> @SharedLocalizer["AddRecruitmentsLabel"]</a></li>
+                                <li><a asp-controller="Recruitments" asp-action="Applicant" class="@((controller == "recruitments" && action == "applicant") ? "active" : "")"> @SharedLocalizer["ApplicantsLabel"]</a></li>
+                                <li><a asp-controller="Recruitments" asp-action="AcceptedApplicant" class="@((controller == "recruitments" && action == "acceptedapplicant") ? "active" : "")"> @SharedLocalizer["AcceptApplicationLabel"]</a></li>
+                                <li><a asp-controller="Recruitments" asp-action="ApplicantEvaluation" class="@((controller == "recruitments" && action == "applicantevaluation") ? "active" : "")"> @SharedLocalizer["EvaluationApplicantsLabel"]</a></li>
+                                <li><a asp-controller="Recruitments" asp-action="RecruitmentViews" class="@((controller == "recruitments" && action == "recruitmentviews") ? "active" : "")">@SharedLocalizer["RecruitmentViewsLabel"]</a></li>
+                            </ul>
+                        </li>
+                        @*<li>
+                                <a href="assets.html"><i class="la la-briefcase"></i> <span>Konkurset</span></a>
+                            </li>
+                            <li>
+                                <a href="assets.html"><i class="la la-users"></i> <span>Kandidatët e aplikuar</span></a>
+                            </li>*@
+
+                        <li class="menu-title">
+                            <span>@SharedLocalizer["NotificationsLabel"]</span>
+                        </li>
+                        <li class="@((controller == "notifications" && action == "index") ? "active" : "")">
+                            <a asp-controller="Notifications" asp-action="Index"><i class="la la-bell-o"></i> <span>@SharedLocalizer["NotificationsLabel"]</span></a>
+                        </li>
+                        <li class="menu-title">
+                            <span>@SharedLocalizer["AdministrationLabel"]</span>
+                        </li>
+
+                        <li>
+
+                            <a asp-area="" asp-controller="Administration" asp-action="Organisation"><i class="la la-cog"></i> <span>@SharedLocalizer["AdministrationLabel"]</span></a>
+
+
+                            <a asp-area="" asp-controller="User" asp-action="Index"><i class="la la-cog"></i> <span>Administration</span> <span class="menu-arrow"></span></a>
+
+                        </li>
+                        @*<li class="menu-title">
+                                <span>Pages</span>
+                            </li>
+                            <li class="submenu">
+                                <a href="#"><i class="la la-user"></i> <span> Profile </span> <span class="menu-arrow"></span></a>
+                                <ul style="display: none;">
+                                    <li><a href="profile.html"> Employee Profile </a></li>
+                                    <li><a href="client-profile.html"> Client Profile </a></li>
+                                </ul>
+                            </li>
+                            <li class="submenu">
+                                <a href="#"><i class="la la-key"></i> <span> Authentication </span> <span class="menu-arrow"></span></a>
+                                <ul style="display: none;">
+                                    <li><a href="login.html"> Login </a></li>
+                                    <li><a href="register.html"> Register </a></li>
+                                    <li><a href="forgot-password.html"> Forgot Password </a></li>
+                                    <li><a href="otp.html"> OTP </a></li>
+                                    <li><a href="lock-screen.html"> Lock Screen </a></li>
+                                </ul>
+                            </li>
+                            <li class="submenu">
+                                <a href="#"><i class="la la-exclamation-triangle"></i> <span> Error Pages </span> <span class="menu-arrow"></span></a>
+                                <ul style="display: none;">
+                                    <li><a href="error-404.html">404 Error </a></li>
+                                    <li><a href="error-500.html">500 Error </a></li>
+                                </ul>
+                            </li>
+                            <li class="submenu">
+                                <a href="#"><i class="la la-hand-o-up"></i> <span> Subscriptions </span> <span class="menu-arrow"></span></a>
+                                <ul style="display: none;">
+                                    <li><a href="subscriptions.html"> Subscriptions (Admin) </a></li>
+                                    <li><a href="subscriptions-company.html"> Subscriptions (Company) </a></li>
+                                    <li><a href="subscribed-companies.html"> Subscribed Companies</a></li>
+                                </ul>
+                            </li>
+                            <li class="submenu">
+                                <a href="#"><i class="la la-columns"></i> <span> Pages </span> <span class="menu-arrow"></span></a>
+                                <ul style="display: none;">
+                                    <li><a href="search.html"> Search </a></li>
+                                    <li><a href="faq.html"> FAQ </a></li>
+                                    <li><a href="terms.html"> Terms </a></li>
+                                    <li><a href="privacy-policy.html"> Privacy Policy </a></li>
+                                    <li><a href="blank-page.html"> Blank Page </a></li>
+                                </ul>
+                            </li>
+                            <li class="menu-title">
+                                <span>UI Interface</span>
+                            </li>
+                            <li>
+                                <a href="components.html"><i class="la la-puzzle-piece"></i> <span>Konfigurimet</span></a>
+                            </li>
+                            <li class="submenu">
+                                <a href="#"><i class="la la-object-group"></i> <span> Forms </span> <span class="menu-arrow"></span></a>
+                                <ul style="display: none;">
+                                    <li><a href="form-basic-inputs.html">Basic Inputs </a></li>
+                                    <li><a href="form-input-groups.html">Input Groups </a></li>
+                                    <li><a href="form-horizontal.html">Horizontal Form </a></li>
+                                    <li><a href="form-vertical.html"> Vertical Form </a></li>
+                                    <li><a href="form-mask.html"> Form Mask </a></li>
+                                    <li><a href="form-validation.html"> Form Validation </a></li>
+                                </ul>
+                            </li>
+                            <li class="submenu">
+                                <a href="#"><i class="la la-table"></i> <span> Tables </span> <span class="menu-arrow"></span></a>
+                                <ul style="display: none;">
+                                    <li><a href="tables-basic.html">Basic Tables </a></li>
+                                    <li><a href="data-tables.html">Data Table </a></li>
+                                </ul>
+                            </li>*@
+                        @*<li class="menu-title">
+                                <span>Extras</span>
+                            </li>
+                            <li>
+                                <a href="#"><i class="la la-file-text"></i> <span>Documentation</span></a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);"><i class="la la-info"></i> <span>Change Log</span> <span class="badge badge-primary ml-auto">v3.4</span></a>
+                            </li>
+                            <li class="submenu">
+                                <a href="javascript:void(0);"><i class="la la-share-alt"></i> <span>Multi Level</span> <span class="menu-arrow"></span></a>
+                                <ul style="display: none;">
+                                    <li class="submenu">
+                                        <a href="javascript:void(0);"> <span>Level 1</span> <span class="menu-arrow"></span></a>
+                                        <ul style="display: none;">
+                                            <li><a href="javascript:void(0);"><span>Level 2</span></a></li>
+                                            <li class="submenu">
+                                                <a href="javascript:void(0);"> <span> Level 2</span> <span class="menu-arrow"></span></a>
+                                                <ul style="display: none;">
+                                                    <li><a href="javascript:void(0);">Level 3</a></li>
+                                                    <li><a href="javascript:void(0);">Level 3</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="javascript:void(0);"> <span>Level 2</span></a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);"> <span>Level 1</span></a>
+                                    </li>
+                                </ul>
+                            </li>*@
                     </ul>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+        </div>
+        <!-- Sidebar -->
+        <div class="page-wrapper">
+            <div id="general-alert-area"></div>
+            <!-- Page Content -->
+            <div class="content container-fluid">
+                @RenderBody()
+            </div>
+
+        </div>
+        <div class="col-lg-12" style="text-align:center; padding-bottom:20px;"> <a href="https://pbc.group/" target="_blank"> powered by pbc</a></div>
+
+        <input id="export-grid-document-url" type="hidden" value="@Url.Action("GenerateExportDocument", "Administration")" />
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - EmExpressProject - <a asp-area="Admin" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <!-- jQuery -->
+    <!-- Bootstrap Core JS -->
+
+    <script src="~/admin/js/requests.js"></script>
+    @*<script src="~/admin/js/select2.min.js"></script>*@
+    <!-- Slimscroll JS -->
+    <script src="~/admin/js/jquery.slimscroll.min.js"></script>
+
+    <!-- Chart JS -->
+    <script src="~/admin/plugins/raphael/raphael.min.js"></script>
+    @*<script src="~/admin/js/chart.js"></script>*@
+    <script src="~/admin/plugins/morris/morris.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="~/admin/js/app.js"></script>
+    <script src="~/admin/lib/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/admin/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#overlay").css('display', 'none');
+            //$.fn.datepicker.defaults.format = "DD.MM.YYYY";
+
+         //   setTimeout(function () { getUnreadNotificationsCount() }, 500);
+        });
+
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
